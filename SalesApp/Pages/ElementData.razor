@@ -1,0 +1,49 @@
+﻿@page "/elementdata"
+
+@using SalesApp.BLL;
+@using SalesApp.DTO;
+@using SalesApp.Data
+@inject IElementService elementService
+
+<h1>Element Data</h1>
+
+<p>This component demonstrates fetching data from a service.</p>
+
+@if (elements == null)
+{
+	<p><em>Loading...</em></p>
+}
+else
+{
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Type</th>
+				<th>Width</th>
+				<th>Height</th>
+				<th>WindowName</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var element in elements)
+			{
+				<tr>
+					<td>@element.Type</td>
+					<td>@element.Width</td>
+					<td>@element.Height</td>
+					<td>@element.WindowName</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+}
+
+@code {
+	private List<ElementDto> elements;
+
+	protected override async Task OnInitializedAsync()
+	{
+		elements = await elementService.GetListAsync();
+	}
+}
+
